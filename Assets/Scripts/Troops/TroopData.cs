@@ -13,6 +13,8 @@ public enum TroopCategory
 {
     Troop,  // combat unit — tracked in TroopManager.PlacedTroops
     Power,  // terrain / utility — tracked in TroopManager.PlacedPowers
+}
+
 public enum ProjectileType { Single, Splash }
 
 public enum TroopEffectType
