@@ -10,8 +10,11 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class TroopSidebarController : MonoBehaviour
 {
-    [Tooltip("One TroopData asset per troop type. Order matches display order.")]
+    [Tooltip("Combat troops shown in the top section. Order matches display order.")]
     [SerializeField] private List<TroopData> troops = new();
+
+    [Tooltip("Powers (e.g. Lily Pad) shown in the bottom section. Order matches display order.")]
+    [SerializeField] private List<TroopData> powers = new();
 
     private VisualElement _sidebar;
     private Button        _toggleBtn;
@@ -40,10 +43,30 @@ public class TroopSidebarController : MonoBehaviour
     void BuildCards(VisualElement list)
     {
         list.Clear();
+
+        // ── Troops ────────────────────────────────────────────
         foreach (var data in troops)
         {
             if (data == null) continue;
             list.Add(MakeCard(data));
+        }
+
+        // ── Powers section ────────────────────────────────────
+        if (powers.Count > 0)
+        {
+            var divider = new VisualElement();
+            divider.AddToClassList("sidebar-divider");
+            list.Add(divider);
+
+            var header = new Label("POWERS");
+            header.AddToClassList("sidebar-section-label");
+            list.Add(header);
+
+            foreach (var data in powers)
+            {
+                if (data == null) continue;
+                list.Add(MakeCard(data));
+            }
         }
     }
 

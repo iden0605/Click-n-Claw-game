@@ -1,13 +1,18 @@
 using UnityEngine;
 
-/// <summary>Where this troop type is allowed to be placed.</summary>
+/// <summary>Where this troop/power is allowed to be placed.</summary>
 public enum PlacementType
 {
     LandOnly,       // Centipede, Beetle, Praying Mantis
-    WaterOnly,      // future water-only troops
+    WaterOnly,      // Lily Pad and future water-only units
     LandAndWater,   // Frog
 }
 
+/// <summary>Which sidebar section this item belongs to.</summary>
+public enum TroopCategory
+{
+    Troop,  // combat unit — tracked in TroopManager.PlacedTroops
+    Power,  // terrain / utility — tracked in TroopManager.PlacedPowers
 public enum ProjectileType { Single, Splash }
 
 public enum TroopEffectType
@@ -20,7 +25,7 @@ public enum TroopEffectType
 }
 
 /// <summary>
-/// Create one TroopData asset per troop type via:
+/// Create one TroopData asset per troop/power type via:
 /// Right-click in Project → Create → Click n Claw → Troop Data
 /// </summary>
 [CreateAssetMenu(fileName = "NewTroopData", menuName = "Click n Claw/Troop Data")]
@@ -31,8 +36,13 @@ public class TroopData : ScriptableObject
     public Sprite portrait;
     public GameObject prefab;
 
+    [Header("Category")]
+    public TroopCategory category = TroopCategory.Troop;
+
     [Header("Placement")]
     public PlacementType placementType = PlacementType.LandOnly;
+    [Tooltip("If true, land troops can be placed on top of this power (e.g. Lily Pad)")]
+    public bool isLandPlatform = false;
 
     [Header("Economy")]
     public int baseCost = 50;
