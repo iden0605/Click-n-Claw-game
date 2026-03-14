@@ -80,7 +80,6 @@
     padding: 10px 8px 8px 8px;
     border-width: 1px;
     border-color: rgba(70, 140, 60, 0.30);
-    cursor: link;
 }
 
 .troop-card:hover {
@@ -130,7 +129,6 @@
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-color: rgba(80, 160, 70, 0.55);
-    cursor: link;
 }
 
 .toggle-tab:hover {
@@ -213,7 +211,6 @@
     padding: 0;
     margin-bottom: 5px;
     -unity-text-align: middle-center;
-    cursor: link;
 }
 
 /* Upgrade — green */

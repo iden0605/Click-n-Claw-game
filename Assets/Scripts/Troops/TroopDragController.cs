@@ -25,6 +25,9 @@ public class TroopDragController : MonoBehaviour
     [Tooltip("Layer used by the water zone collider")]
     [SerializeField] private LayerMask waterMask;
 
+    [Tooltip("Optional: assign a scene RangeIndicator — auto-created at runtime if left empty")]
+    [SerializeField] private RangeIndicator dragRangeIndicator;
+
     private enum DragMode { None, NewTroop, MoveTroop }
 
     private UIDocument    _uiDoc;
@@ -39,6 +42,14 @@ public class TroopDragController : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         _uiDoc = GetComponent<UIDocument>();
+
+        if (dragRangeIndicator == null)
+        {
+            var go = new GameObject("Drag Range Indicator");
+            go.AddComponent<MeshFilter>();
+            go.AddComponent<MeshRenderer>();
+            dragRangeIndicator = go.AddComponent<RangeIndicator>();
+        }
     }
 
     void OnDisable() => CancelDrag();
@@ -53,6 +64,7 @@ public class TroopDragController : MonoBehaviour
         _mode            = DragMode.NewTroop;
         _activationFrame = Time.frameCount;
         SpawnGhost(data.portrait);
+        ShowDragRange(data.range);
     }
 
     public void BeginMoveDrag(TroopInstance instance)
@@ -63,6 +75,7 @@ public class TroopDragController : MonoBehaviour
         TroopManager.Instance.Unregister(instance); // exclude from distance checks while moving
         instance.gameObject.SetActive(false);
         SpawnGhost(instance.Data.portrait);
+        ShowDragRange(instance.CurrentRange);
     }
 
     // -------------------------------------------------------
@@ -84,6 +97,10 @@ public class TroopDragController : MonoBehaviour
         var worldPos = ScreenToWorld(Input.mousePosition);
         bool valid   = IsPlacementValid(worldPos);
         _ghost.EnableInClassList("drag-ghost--invalid", !valid);
+
+        // Keep the range preview centred on the cursor
+        if (dragRangeIndicator != null)
+            dragRangeIndicator.transform.position = worldPos;
 
         // NewTroop: release to place
         if (_mode == DragMode.NewTroop && Input.GetMouseButtonUp(0))
@@ -235,6 +252,15 @@ public class TroopDragController : MonoBehaviour
             _ghost.RemoveFromHierarchy();
             _ghost = null;
         }
+
+        if (dragRangeIndicator != null) dragRangeIndicator.SetVisible(false);
+    }
+
+    void ShowDragRange(float radius)
+    {
+        if (dragRangeIndicator == null) return;
+        dragRangeIndicator.SetRadius(radius);
+        dragRangeIndicator.SetVisible(true);
     }
 
     static Vector3 ScreenToWorld(Vector2 screenPos)

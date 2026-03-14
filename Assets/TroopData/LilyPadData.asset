@@ -19,4 +19,10 @@ MonoBehaviour:
   placementType: 1
   isLandPlatform: 1
   baseCost: 50
+  attack: 1
+  attackSpeed: 1
+  range: 0
+  projectileType: 0
+  splashRadius: 0.5
+  effectType: 0
   upgrades: []
