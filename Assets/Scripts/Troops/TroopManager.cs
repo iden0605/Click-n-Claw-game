@@ -12,9 +12,13 @@ public class TroopManager : MonoBehaviour
     [Tooltip("The Allys parent GameObject in the scene hierarchy")]
     [SerializeField] private Transform troopsParent;
 
-    // Tracked so TroopDragController can do center-to-center distance checks
-    public IReadOnlyList<TroopInstance> PlacedTroops => _placedTroops;
+    // Combat troops — used for center-to-center overlap checks
+    public IReadOnlyList<TroopInstance> PlacedTroops  => _placedTroops;
     private readonly List<TroopInstance> _placedTroops = new();
+
+    // Powers (e.g. Lily Pad) — separate registry so troops don't collide-check against them
+    public IReadOnlyList<TroopInstance> PlacedPowers  => _placedPowers;
+    private readonly List<TroopInstance> _placedPowers = new();
 
     void Awake()
     {
@@ -66,12 +70,19 @@ public class TroopManager : MonoBehaviour
 
     public void Register(TroopInstance troop)
     {
-        if (!_placedTroops.Contains(troop))
-            _placedTroops.Add(troop);
+        if (troop.Data.category == TroopCategory.Power)
+        {
+            if (!_placedPowers.Contains(troop)) _placedPowers.Add(troop);
+        }
+        else
+        {
+            if (!_placedTroops.Contains(troop)) _placedTroops.Add(troop);
+        }
     }
 
     public void Unregister(TroopInstance troop)
     {
         _placedTroops.Remove(troop);
+        _placedPowers.Remove(troop);
     }
 }

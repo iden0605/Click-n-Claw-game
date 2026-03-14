@@ -52,6 +52,24 @@
     padding: 10px;
 }
 
+/* ── Section divider ─────────────────────────────────────────── */
+.sidebar-divider {
+    height: 1px;
+    background-color: rgba(80, 160, 70, 0.35);
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+/* ── Section label (POWERS etc.) ─────────────────────────────── */
+.sidebar-section-label {
+    font-size: 11px;
+    color: rgba(145, 215, 120, 0.65);
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    -unity-text-align: middle-center;
+    margin-bottom: 6px;
+}
+
 /* ── Troop card (column: portrait on top, cost below) ────────── */
 .troop-card {
     flex-direction: column;

@@ -122,45 +122,84 @@ public class TroopDragController : MonoBehaviour
 
     bool IsPlacementValid(Vector3 worldPos)
     {
-        if (overlapRadius > 0 && IsTroopOverlapping(worldPos)) return false;
-
         var pos2D = new Vector2(worldPos.x, worldPos.y);
+        bool placingPower = GetCurrentTroopData()?.category == TroopCategory.Power;
 
         // Never allow placement on the enemy path
         if (Physics2D.OverlapCircle(pos2D, zoneCheckRadius, enemyPathMask)) return false;
 
-        // Check terrain against the troop's placement type
-        bool onWater = Physics2D.OverlapCircle(pos2D, zoneCheckRadius, waterMask);
+        // Check if a land platform (e.g. Lily Pad) is present — reads PlacedPowers only,
+        // so it is never blocked by the troop overlap check.
+        bool onLilyPad = HasLandPlatformAt(pos2D);
 
-        return GetCurrentPlacementType() switch
+        // If standing on a land platform, treat as land regardless of the water zone beneath
+        bool onWater = !onLilyPad && Physics2D.OverlapCircle(pos2D, zoneCheckRadius, waterMask);
+
+        bool terrainValid = GetCurrentPlacementType() switch
         {
-            PlacementType.LandOnly    => !onWater,
-            PlacementType.WaterOnly   =>  onWater,
+            PlacementType.LandOnly     => !onWater,   // land or lily pad = valid
+            PlacementType.WaterOnly    =>  onWater,   // open water only — not on a lily pad
             PlacementType.LandAndWater => true,
-            _                         => true,
+            _                          => true,
         };
+        if (!terrainValid) return false;
+
+        // Powers overlap-check against other powers only (no stacking lily pads).
+        // Troops overlap-check against other troops only (powers are invisible to this check).
+        if (overlapRadius > 0)
+        {
+            if (placingPower  && IsPowerOverlapping(worldPos))  return false;
+            if (!placingPower && IsTroopOverlapping(worldPos))  return false;
+        }
+
+        return true;
     }
 
-    PlacementType GetCurrentPlacementType()
+    PlacementType GetCurrentPlacementType() =>
+        GetCurrentTroopData()?.placementType ?? PlacementType.LandOnly;
+
+    bool HasLandPlatformAt(Vector2 pos)
     {
-        if (_mode == DragMode.NewTroop  && _newTroopData    != null) return _newTroopData.placementType;
-        if (_mode == DragMode.MoveTroop && _movingInstance  != null) return _movingInstance.Data.placementType;
-        return PlacementType.LandOnly;
+        // Reads PlacedPowers — lily pads are never in PlacedTroops, so this is clean.
+        foreach (var power in TroopManager.Instance.PlacedPowers)
+        {
+            if (!power.Data.isLandPlatform) continue;
+            var col = power.GetComponent<Collider2D>();
+            if (col != null && col.OverlapPoint(pos))
+                return true;
+        }
+        return false;
     }
 
     bool IsTroopOverlapping(Vector3 worldPos)
     {
-        // Compare center-to-center distances so overlapRadius directly controls
-        // minimum spacing regardless of collider size.
         var pos2D = new Vector2(worldPos.x, worldPos.y);
         foreach (var troop in TroopManager.Instance.PlacedTroops)
         {
-            // PlacedTroops excludes the troop currently being moved (it's deregistered on pickup)
             var troopPos = new Vector2(troop.transform.position.x, troop.transform.position.y);
             if (Vector2.Distance(pos2D, troopPos) < overlapRadius)
                 return true;
         }
         return false;
+    }
+
+    bool IsPowerOverlapping(Vector3 worldPos)
+    {
+        var pos2D = new Vector2(worldPos.x, worldPos.y);
+        foreach (var power in TroopManager.Instance.PlacedPowers)
+        {
+            var powerPos = new Vector2(power.transform.position.x, power.transform.position.y);
+            if (Vector2.Distance(pos2D, powerPos) < overlapRadius)
+                return true;
+        }
+        return false;
+    }
+
+    TroopData GetCurrentTroopData()
+    {
+        if (_mode == DragMode.NewTroop)  return _newTroopData;
+        if (_mode == DragMode.MoveTroop) return _movingInstance?.Data;
+        return null;
     }
 
     // -------------------------------------------------------
