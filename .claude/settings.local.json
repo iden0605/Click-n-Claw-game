@@ -3,7 +3,12 @@
     "allow": [
       "Bash(find c:UserszonesDesktopProjectsClick-n-Claw-gameAssets -type f \\\\\\(-name *.unity -o -name *.prefab \\\\\\))",
       "Bash(find /c/Users/zones/Desktop/Projects/Click-n-Claw-game/Assets/Prefabs/Characters -name *.prefab -exec bash -c \"echo \"\"=== $1 ===\"\" && cat \"\"$1\"\"\" _ {})",
-      "Bash(2)"
+      "Bash(2)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r \"CurrentWaveIndex\\\\|IsWaveActive\\\\|EnemiesAlive\\\\|Wave.*UI\\\\|Wave.*Text\" /c/Users/Jorvan/Documents/Projects/Click-n-Claw-game/Assets/Scripts --include=*.cs)",
+      "Bash(find /c/Users/Jorvan/Documents/Projects/Click-n-Claw-game/Assets/EnemyData -type f -name *.asset)",
+      "Bash(find c:UsersJorvanDocumentsProjectsClick-n-Claw-gameAssetsScripts -type f -name *.cs -exec grep -l \"LocalScale\\\\|scale\\\\|lerp\\\\|Lerp\" {})",
+      "Bash(ls -la \"c:\\\\Users\\\\Jorvan\\\\Documents\\\\Projects\\\\Click-n-Claw-game\\\\Assets\\\\Scripts\\\\Troops\\\\Ant\"\" \"c:UsersJorvanDocumentsProjectsClick-n-Claw-gameAssetsScriptsTroopsBeetle\"\" \"c:\\\\Users\\\\Jorvan\\\\Documents\\\\Projects\\\\Click-n-Claw-game\\\\Assets\\\\Scripts\\\\Troops\\\\Mantis\"\" \"c:UsersJorvanDocumentsProjectsClick-n-Claw-gameAssetsScriptsTroopsCentipede\"\" \"c:\\\\Users\\\\Jorvan\\\\Documents\\\\Projects\\\\Click-n-Claw-game\\\\Assets\\\\Scripts\\\\Troops\\\\Frog\"\" 2>/dev/null | grep \".cs \")"
     ]
   }
 }
