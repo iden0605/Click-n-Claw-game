@@ -113,7 +113,7 @@ public class WaveManager : MonoBehaviour
     public void OnEnemyEscaped(EnemyInstance enemy)
     {
         DecrementAlive();
-        // TODO: connect to a LivesManager or PlayerHealth here
+        PlayerHealthManager.Instance?.LoseHealth((int)enemy.CurrentHealth);
         Debug.Log($"[WaveManager] Enemy escaped! ({Data(enemy)} reached the end of the path)");
     }
 

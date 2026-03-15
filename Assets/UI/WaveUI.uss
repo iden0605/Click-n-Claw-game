@@ -1,0 +1,96 @@
+/* =============================================================
+   WaveUI.uss  —  Click 'n' Claw in-game wave HUD
+   ============================================================= */
+
+/* ── Full-screen transparent root ────────────────────────── */
+.wave-root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Shared pill ──────────────────────────────────────────── */
+.hud-pill {
+    position: absolute;
+    top: 0;
+    flex-direction: row;
+    align-items: center;
+    height: 20px;
+    background-color: rgba(12, 12, 18, 0.78);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 0 8px;
+}
+
+.hud-pill--left {
+    left: 0;
+    border-bottom-right-radius: 6px;
+    border-color: rgba(180, 55, 46, 0.30);
+}
+
+.hud-pill--right {
+    right: 0;
+    border-bottom-left-radius: 6px;
+    border-color: rgba(88, 160, 76, 0.30);
+}
+
+/* ── Heart icon ───────────────────────────────────────────── */
+.heart-icon {
+    width: 13px;
+    height: 13px;
+    margin-right: 4px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* ── Shared value label ───────────────────────────────────── */
+.hud-value {
+    font-size: 9px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: rgb(255, 210, 200);
+    padding: 0;
+    margin: 0;
+}
+
+.hud-value--wave {
+    color: rgb(195, 255, 165);
+    letter-spacing: 1px;
+    min-width: 44px;
+}
+
+/* ── Divider between wave text and play button ────────────── */
+.hud-divider {
+    width: 1px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.12);
+    margin-left: 6px;
+    margin-right: 4px;
+}
+
+/* ── Next wave play button ────────────────────────────────── */
+.hud-next-btn {
+    width: 16px;
+    height: 14px;
+    border-radius: 3px;
+    font-size: 8px;
+    -unity-text-align: middle-center;
+    padding: 0;
+    border-width: 1px;
+    border-color: rgba(100, 180, 100, 0.35);
+    background-color: rgba(30, 90, 35, 0.70);
+    color: rgb(190, 255, 160);
+    transition-property: background-color, opacity;
+    transition-duration: 0.10s;
+    transition-timing-function: ease-out;
+}
+
+.hud-next-btn:hover {
+    background-color: rgba(45, 120, 50, 0.90);
+}
+
+/* Disabled state */
+.wave-btn--disabled {
+    opacity: 0.22;
+}
