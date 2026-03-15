@@ -67,6 +67,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1478405365187898479, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8149425998257570686}
+    - targetCorrespondingSourceObject: {fileID: 1478405365187898479, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8752457146132930287}
   m_SourcePrefab: {fileID: 100100000, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
 --- !u!1 &751817462249862375 stripped
 GameObject:
@@ -129,3 +132,24 @@ CapsuleCollider2D:
   m_Offset: {x: -0.030854702, y: -0.003213793}
   m_Size: {x: 0.28259754, y: 0.6335724}
   m_Direction: 0
+--- !u!114 &8752457146132930287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751817462249862375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae4ef0047bab48a498992d529532972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windUpScale: 1.3
+  windUpDuration: 0.28
+  slamDuration: 0.1
+  shockwaveColor: {r: 0.55, g: 0.35, b: 0.1, a: 1}
+  shockwaveWidth: 0.12
+  shockwaveDuration: 0.5
+  shockwaveSegments: 48
+  sortingLayerName: Default
+  sortingOrder: 4

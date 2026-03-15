@@ -67,6 +67,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1478405365187898479, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1646750704348450977}
+    - targetCorrespondingSourceObject: {fileID: 1478405365187898479, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1601797561573948171}
   m_SourcePrefab: {fileID: 100100000, guid: f7329f9ea5af641cda0ee7ff6971b758, type: 3}
 --- !u!1 &1592945629552844655 stripped
 GameObject:
@@ -129,3 +132,21 @@ CapsuleCollider2D:
   m_Offset: {x: 0.019927025, y: -0.005785227}
   m_Size: {x: 0.49729538, y: 0.59757566}
   m_Direction: 0
+--- !u!114 &1601797561573948171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592945629552844655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f2511d6b6274e9b9dcd997d6f5d807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouthOffset: 0.28
+  projectileSpeed: 7
+  spitPauseDuration: 0.18
+  projectileRadius: 0.05
+  sortingLayerName: Default
+  sortingOrder: 7
