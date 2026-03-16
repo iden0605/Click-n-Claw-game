@@ -6,22 +6,111 @@
 
         <!-- Background image (sprite set via C#) -->
         <ui:VisualElement name="bg-image" class="bg-image" />
-        <!-- Dark overlay for readability -->
+
+        <!-- ── Procedural scene background ─────────────────────────────── -->
+
+        <!-- Ground base -->
+        <ui:VisualElement class="scene-ground" />
+
+        <!-- Treeline / forest canopy -->
+        <ui:VisualElement class="scene-tree-l" />
+        <ui:VisualElement class="scene-tree-r" />
+        <ui:VisualElement class="scene-tree-mid" />
+
+        <!-- Grass field layers (back → front) -->
+        <ui:VisualElement class="scene-grass-main" />
+        <ui:VisualElement class="scene-grass-mid" />
+        <ui:VisualElement class="scene-grass-near" />
+
+        <!-- Organic grass texture patches -->
+        <ui:VisualElement class="scene-grass-patch gp-1" />
+        <ui:VisualElement class="scene-grass-patch gp-2" />
+        <ui:VisualElement class="scene-grass-patch gp-3" />
+        <ui:VisualElement class="scene-grass-patch gp-4" />
+        <ui:VisualElement class="scene-grass-patch gp-5" />
+        <ui:VisualElement class="scene-grass-patch gp-6" />
+        <ui:VisualElement class="scene-grass-patch gp-7" />
+
+        <!-- River channel: upper-right → lower-left -->
+        <ui:VisualElement class="scene-river-bank-l" />
+        <ui:VisualElement class="scene-river-bank-r" />
+        <ui:VisualElement class="scene-river" />
+        <ui:VisualElement class="scene-river-inner" />
+        <ui:VisualElement class="scene-river-shimmer rs-a" />
+        <ui:VisualElement class="scene-river-shimmer rs-b" />
+        <ui:VisualElement class="scene-river-shimmer rs-c" />
+        <ui:VisualElement class="scene-river-delta" />
+
+        <!-- Waterfall where river meets the pond -->
+        <ui:VisualElement class="scene-fall-l" />
+        <ui:VisualElement class="scene-fall-r" />
+        <ui:VisualElement class="scene-fall" />
+        <ui:VisualElement class="scene-fall-splash" />
+        <ui:VisualElement class="scene-fall-mist" />
+
+        <!-- Stones along riverbanks -->
+        <ui:VisualElement class="stone s-1" />
+        <ui:VisualElement class="stone s-2" />
+        <ui:VisualElement class="stone s-3" />
+        <ui:VisualElement class="stone s-4" />
+        <ui:VisualElement class="stone s-5" />
+        <ui:VisualElement class="stone s-6" />
+        <ui:VisualElement class="stone s-7" />
+
+        <!-- Flowers scattered in grass -->
+        <ui:VisualElement class="flower fl-yellow fl-1" />
+        <ui:VisualElement class="flower fl-pink   fl-2" />
+        <ui:VisualElement class="flower fl-white  fl-3" />
+        <ui:VisualElement class="flower fl-yellow fl-4" />
+        <ui:VisualElement class="flower fl-orange fl-5" />
+        <ui:VisualElement class="flower fl-pink   fl-6" />
+        <ui:VisualElement class="flower fl-white  fl-7" />
+        <ui:VisualElement class="flower fl-orange fl-8" />
+        <ui:VisualElement class="flower fl-purple fl-9" />
+        <ui:VisualElement class="flower fl-yellow fl-10" />
+        <ui:VisualElement class="flower fl-pink   fl-11" />
+        <ui:VisualElement class="flower fl-purple fl-12" />
+        <ui:VisualElement class="flower fl-orange fl-13" />
+        <ui:VisualElement class="flower fl-white  fl-14" />
+
+        <!-- Lily pads and pond shimmer -->
+        <ui:VisualElement class="lily-pad lp-1" />
+        <ui:VisualElement class="lily-pad lp-2" />
+        <ui:VisualElement class="lily-pad lp-3" />
+        <ui:VisualElement class="lily-pad lp-4" />
+        <ui:VisualElement class="lily-pad lp-5" />
+        <ui:VisualElement class="pond-shimmer ps-1" />
+        <ui:VisualElement class="pond-shimmer ps-2" />
+        <ui:VisualElement class="pond-shimmer ps-3" />
+        <ui:VisualElement class="pond-shimmer ps-4" />
+
+        <!-- Dark overlay for readability (sits on top of scene) -->
         <ui:VisualElement class="bg-overlay" />
+
         <!-- Decorative water strip at bottom -->
         <ui:VisualElement class="water-strip" />
 
-        <!-- Enemy sprites floating in the water strip (threat indicators) -->
-        <ui:VisualElement name="deco-plastic-bag" class="enemy-float enemy-float--bag" />
-        <ui:VisualElement name="deco-mosquito"    class="enemy-float enemy-float--mosq" />
-        <ui:VisualElement name="deco-straw"       class="enemy-float enemy-float--straw" />
+        <!-- Ghost decorations at screen edges -->
+        <ui:VisualElement name="deco-raccoon" class="corner-sprite corner-sprite--raccoon" />
+        <ui:VisualElement name="deco-wasp"    class="corner-sprite corner-sprite--wasp" />
+
+        <!-- Enemy sprites floating in the water strip -->
+        <ui:VisualElement name="deco-plastic-bag"    class="enemy-float enemy-float--bag" />
+        <ui:VisualElement name="deco-mosquito"        class="enemy-float enemy-float--mosq" />
+        <ui:VisualElement name="deco-straw"           class="enemy-float enemy-float--straw" />
+        <ui:VisualElement name="deco-plastic-bottle"  class="enemy-float enemy-float--bottle" />
+        <ui:VisualElement name="deco-tin-can"         class="enemy-float enemy-float--can" />
+        <ui:VisualElement name="deco-alligator"       class="enemy-float enemy-float--gator" />
+        <ui:VisualElement name="deco-cockroach"       class="enemy-float enemy-float--roach" />
+        <ui:VisualElement name="deco-baby-mosquito"   class="enemy-float enemy-float--babymos" />
+        <ui:VisualElement name="deco-baby-mosquito-2" class="enemy-float enemy-float--babymos2" />
 
         <!-- ── Centred content column ────────────────────────── -->
         <ui:VisualElement class="menu-content">
 
             <!-- Title card -->
             <ui:VisualElement class="title-card">
-                <ui:Label text="CLICK 'N' CLAW" class="title-main" />
+                <ui:Label text="AFLOAT" class="title-main" />
                 <ui:Label text="PROTECT  THE  POND" class="title-sub" />
             </ui:VisualElement>
 
@@ -34,17 +123,21 @@
                     <ui:VisualElement name="centipede-deco" class="centipede-deco" />
                 </ui:VisualElement>
 
-                <ui:Button name="tutorial-btn" text="TUTORIAL" class="menu-btn secondary-btn" />
-                <ui:Button name="exit-btn"     text="EXIT"     class="menu-btn exit-btn" />
+                <ui:Button name="exit-btn" text="EXIT" class="menu-btn exit-btn" />
 
             </ui:VisualElement>
 
             <!-- Critter decoration row — sits above the water strip -->
             <ui:VisualElement class="critter-row">
-                <ui:VisualElement name="deco-frog"   class="critter-icon critter-icon--lo" />
-                <ui:VisualElement name="deco-ant"    class="critter-icon critter-icon--hi" />
-                <ui:VisualElement name="deco-beetle" class="critter-icon critter-icon--lo" />
-                <ui:VisualElement name="deco-mantis" class="critter-icon critter-icon--hi" />
+                <ui:VisualElement name="deco-worm"       class="critter-icon critter-icon--lo" />
+                <ui:VisualElement name="deco-axolotl"    class="critter-icon critter-icon--hi" />
+                <ui:VisualElement name="deco-frog"       class="critter-icon critter-icon--lo" />
+                <ui:VisualElement name="deco-ant"        class="critter-icon critter-icon--hi" />
+                <ui:VisualElement name="deco-koi"        class="critter-icon critter-icon--lo" />
+                <ui:VisualElement name="deco-beetle"     class="critter-icon critter-icon--hi" />
+                <ui:VisualElement name="deco-mantis"     class="critter-icon critter-icon--lo" />
+                <ui:VisualElement name="deco-dragonfly"  class="critter-icon critter-icon--hi" />
+                <ui:VisualElement name="deco-centipede2" class="critter-icon critter-icon--lo" />
             </ui:VisualElement>
 
         </ui:VisualElement>

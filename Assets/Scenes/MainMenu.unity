@@ -250,6 +250,20 @@ MonoBehaviour:
   antSprite: {fileID: 21300000, guid: faffa8fe8960b46b9a9d9966a035c424, type: 3}
   beetleSprite: {fileID: 21300000, guid: a8f9470a391a44af9b650d8f234b23a6, type: 3}
   mantisSprite: {fileID: 21300000, guid: 16e2655f7c98b45f8be4c902691c31f5, type: 3}
+  koiSprite: {fileID: 21300000, guid: 294b6bff024f34d5cb21c3c34eb12c45, type: 3}
+  dragonFlySprite: {fileID: 21300000, guid: e626057b55ed34adea50b270c1e94f75, type: 3}
+  axolotlSprite: {fileID: 21300000, guid: fa374ec4f01884d88b408774447602b8, type: 3}
+  aquaticWormSprite: {fileID: 21300000, guid: 8c2d999c84d7f47a8b0f5f58234ea8ca, type: 3}
+  plasticBagSprite: {fileID: 21300000, guid: 938510b5cac27485c9037336d2d6d9d3, type: 3}
+  mosquitoSprite: {fileID: 1057153313, guid: e705129136a844c7ca233069e62bcd34, type: 3}
+  strawSprite: {fileID: 21300000, guid: 7c64eabef899140e38774c4d3812836c, type: 3}
+  plasticBottleSprite: {fileID: 21300000, guid: aa134fe1bb6904d5888c4a01f31030c5, type: 3}
+  tinCanSprite: {fileID: 21300000, guid: 15d6c60b72f3442f999be3730811242d, type: 3}
+  alligatorSprite: {fileID: 21300000, guid: d11056b818ac44d40be868c1d563e586, type: 3}
+  cockroachSprite: {fileID: 21300000, guid: 5c1deee7d23b84f4c96cb7ee2109a6c4, type: 3}
+  babyMosquitoSprite: {fileID: 21300000, guid: 5b7b09a31d60b436c9ef85f74c9e2adf, type: 3}
+  raccoonSprite: {fileID: 21300000, guid: 004dac72ec528464d8a0fa868ce4b674, type: 3}
+  waspSprite: {fileID: 21300000, guid: 02fab406714fd43f295572ccb6f8352d, type: 3}
 --- !u!114 &1344276920
 MonoBehaviour:
   m_ObjectHideFlags: 0

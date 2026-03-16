@@ -19,7 +19,7 @@ MonoBehaviour:
   prefab: {fileID: 4701545867634183170, guid: 5baaa7739e4e04bff9cf03b3a8ced342, type: 3}
   baseHealth: 50
   speed: 2.5
-  goldDrop: 15
+  goldDrop: 10
   effectType: 1
   effectValue: 0
   effectValue2: 0

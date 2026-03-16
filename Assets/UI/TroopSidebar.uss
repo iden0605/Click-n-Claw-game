@@ -1057,9 +1057,7 @@
 }
 
 .drag-cancel-bin {
-    width: 68px;
-    height: 68px;
-    border-radius: 34px;
+    /* width, height, border-radius set in code from binSize field */
     background-color: rgba(30, 20, 20, 0.88);
     border-width: 2px;
     border-color: rgba(160, 55, 45, 0.70);
@@ -1077,16 +1075,11 @@
 }
 
 .drag-cancel-bin-icon {
-    font-size: 24px;
-    color: rgba(230, 210, 210, 0.90);
-    -unity-text-align: middle-center;
+    /* size is set inline from binIconSize field */
+    background-size: contain;
+    background-position-x: center;
+    background-position-y: center;
     margin-bottom: 2px;
+    tint-color: rgba(230, 210, 210, 0.90);
 }
 
-.drag-cancel-bin-label {
-    font-size: 7px;
-    color: rgba(210, 190, 190, 0.65);
-    -unity-font-style: bold;
-    letter-spacing: 1px;
-    -unity-text-align: middle-center;
-}

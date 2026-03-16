@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Milestone_Phase2
   m_EditorClassIdentifier: 
   phaseName: 'Phase 2: Creeping Threats'
-  triggerAfterWave: 4
+  triggerAfterWave: 5
   isVictory: 0
   unlockedTroops:
   - {fileID: 11400000, guid: dec9688b3366c46edb74f0cf1be04c3a, type: 2}
+  - {fileID: 11400000, guid: c491779b299bc4628a6d4d8470f795b6, type: 2}
   evolutionUnlocks: []

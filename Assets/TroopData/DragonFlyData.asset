@@ -23,7 +23,7 @@ MonoBehaviour:
   isLandPlatform: 0
   useRectangularRange: 0
   rangeRectWidth: 0.6
-  baseCost: 50
+  baseCost: 150
   attack: 15
   attackSpeed: 0.4
   range: 0

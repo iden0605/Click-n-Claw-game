@@ -26,8 +26,8 @@ public class EnemyInstance : MonoBehaviour
     public float     MaxHealth     { get; private set; }
     public bool      IsDead        { get; private set; }
 
-    private EnemyHealthBar _healthBar;
-    private EnemyMovement  _movement;
+    private EnemyCrackOverlay _crackOverlay;
+    private EnemyMovement     _movement;
     private EnemyHitFlash  _hitFlash;
     private HitStop        _hitStop;
 
@@ -71,8 +71,9 @@ public class EnemyInstance : MonoBehaviour
         _desperationTriggered = false;
         _thresholdSpawnCount  = 0;
 
-        _healthBar = GetComponent<EnemyHealthBar>();
-        _healthBar?.Initialize(MaxHealth);
+        _crackOverlay = GetComponent<EnemyCrackOverlay>()
+                        ?? gameObject.AddComponent<EnemyCrackOverlay>();
+        _crackOverlay.OnHealthChanged(1f);   // reset to no cracks on (re)spawn
 
         _hitFlash = GetComponent<EnemyHitFlash>();
         _hitStop  = GetComponent<HitStop>();
@@ -189,7 +190,7 @@ public class EnemyInstance : MonoBehaviour
         float prevHealth = CurrentHealth;
         CurrentHealth   -= amount;
 
-        _healthBar?.SetFill(CurrentHealth / MaxHealth);
+        _crackOverlay?.OnHealthChanged(CurrentHealth / MaxHealth);
         _hitFlash?.Flash();
         _hitStop?.TriggerStop(); // 3-frame animator freeze for impact weight
         AudioManager.Instance?.PlaySFX(AudioManager.Instance?.sfxEnemyHit, 0.3f);

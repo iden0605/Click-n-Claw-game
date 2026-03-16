@@ -30,7 +30,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(4, 14, 6, 0.68);
+    background-color: rgba(4, 14, 6, 0.38);
 }
 
 /* Decorative water strip at the bottom */
@@ -40,9 +40,9 @@
     bottom: 0;
     width: 100%;
     height: 110px;
-    background-color: rgba(12, 48, 82, 0.50);
-    border-top-width: 1px;
-    border-top-color: rgba(55, 135, 195, 0.30);
+    background-color: rgba(14, 55, 100, 0.88);
+    border-top-width: 2px;
+    border-top-color: rgba(65, 158, 228, 0.62);
 }
 
 /* ── Content column ──────────────────────────────────────────── */
@@ -139,6 +139,82 @@
     width: 36px;
     height: 72px;
     rotate: 22deg;
+}
+
+/* Additional water strip enemies */
+.enemy-float--bottle {
+    bottom: 20px;
+    left: 18%;
+    width: 30px;
+    height: 64px;
+    rotate: -10deg;
+}
+
+.enemy-float--can {
+    bottom: 14px;
+    left: 30%;
+    width: 48px;
+    height: 50px;
+    rotate: 7deg;
+}
+
+.enemy-float--gator {
+    bottom: 8px;
+    left: 60%;
+    width: 86px;
+    height: 54px;
+    rotate: -3deg;
+    opacity: 0.55;
+}
+
+.enemy-float--roach {
+    bottom: 22px;
+    right: 16%;
+    width: 50px;
+    height: 46px;
+    rotate: -16deg;
+}
+
+.enemy-float--babymos {
+    bottom: 34px;
+    left: 38%;
+    width: 40px;
+    height: 40px;
+    rotate: 14deg;
+}
+
+.enemy-float--babymos2 {
+    bottom: 28px;
+    right: 3%;
+    width: 36px;
+    height: 36px;
+    rotate: -20deg;
+    opacity: 0.60;
+}
+
+/* ── Corner / edge ghost sprites ─────────────────────────────── */
+.corner-sprite {
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.22;
+}
+
+.corner-sprite--raccoon {
+    top: 5%;
+    right: 3%;
+    width: 110px;
+    height: 110px;
+    rotate: 10deg;
+}
+
+.corner-sprite--wasp {
+    top: 10%;
+    left: 2%;
+    width: 96px;
+    height: 96px;
+    rotate: -12deg;
 }
 
 /* ── Base button ─────────────────────────────────────────────── */
@@ -247,3 +323,257 @@
     color: rgba(145, 215, 120, 0.28);
     letter-spacing: 1px;
 }
+
+/* =============================================================
+   Procedural scene background
+   All elements position: absolute, rendered under the overlay.
+   River flows upper-right → lower-left, entering the pond
+   with a waterfall. rotate: negative = counter-clockwise,
+   which tilts tall vertical strips top-right / bottom-left.
+   ============================================================= */
+
+/* ── Ground base */
+.scene-ground {
+    position: absolute;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgb(13, 42, 11);
+}
+
+/* ── Distant treeline / forest canopy */
+.scene-tree-l {
+    position: absolute;
+    left: -4%; top: 0;
+    width: 56%; height: 48%;
+    background-color: rgb(7, 22, 8);
+    border-bottom-right-radius: 260px;
+}
+
+.scene-tree-r {
+    position: absolute;
+    right: -4%; top: 0;
+    width: 44%; height: 42%;
+    background-color: rgb(8, 24, 9);
+    border-bottom-left-radius: 220px;
+}
+
+.scene-tree-mid {
+    position: absolute;
+    left: 28%; top: 0;
+    width: 48%; height: 33%;
+    background-color: rgb(9, 26, 10);
+    border-bottom-left-radius: 175px;
+    border-bottom-right-radius: 140px;
+}
+
+/* ── Grass field — three layers (back to front) */
+.scene-grass-main {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 63%;
+    background-color: rgb(19, 60, 17);
+    border-top-left-radius: 170px;
+    border-top-right-radius: 115px;
+}
+
+.scene-grass-mid {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 41%;
+    background-color: rgb(22, 70, 19);
+    border-top-left-radius: 95px;
+    border-top-right-radius: 72px;
+}
+
+.scene-grass-near {
+    position: absolute;
+    left: 0; bottom: 108px;
+    width: 100%; height: 13%;
+    background-color: rgb(27, 83, 23);
+}
+
+/* Organic grass texture patches */
+.scene-grass-patch {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(30, 90, 26);
+    opacity: 0.62;
+}
+
+.gp-1 { left: 3%;   bottom: 245px; width: 145px; height: 60px;  rotate: -6deg; }
+.gp-2 { left: 20%;  bottom: 205px; width: 118px; height: 52px;  rotate:  5deg; }
+.gp-3 { right: 4%;  bottom: 255px; width: 132px; height: 56px;  rotate:  9deg; }
+.gp-4 { right: 18%; bottom: 222px; width: 102px; height: 46px;  rotate: -7deg; }
+.gp-5 { left: 70%;  bottom: 278px; width: 88px;  height: 40px;  rotate:  4deg; }
+.gp-6 { left: 8%;   bottom: 308px; width: 78px;  height: 35px;  rotate: -11deg; }
+.gp-7 { right: 6%;  bottom: 298px; width: 92px;  height: 42px;  rotate:  14deg; }
+
+/* ── River channel
+   A tall vertical strip rotated -28 deg (counter-clockwise) so
+   the top leans right and the bottom leans left, creating the
+   upper-right → lower-left diagonal. */
+.scene-river {
+    position: absolute;
+    left: 64%; top: -180px;
+    width: 106px; height: 1400px;
+    background-color: rgba(20, 68, 145, 0.90);
+    rotate: -28deg;
+}
+
+.scene-river-inner {
+    position: absolute;
+    left: 65.8%; top: -180px;
+    width: 54px; height: 1400px;
+    background-color: rgba(32, 100, 185, 0.55);
+    rotate: -28deg;
+}
+
+.scene-river-bank-l {
+    position: absolute;
+    left: 61.4%; top: -180px;
+    width: 24px; height: 1400px;
+    background-color: rgba(28, 88, 52, 0.60);
+    rotate: -28deg;
+}
+
+.scene-river-bank-r {
+    position: absolute;
+    left: 71.8%; top: -180px;
+    width: 24px; height: 1400px;
+    background-color: rgba(28, 88, 52, 0.50);
+    rotate: -28deg;
+}
+
+/* Current / shimmer lines running down the river */
+.scene-river-shimmer {
+    position: absolute;
+    top: -180px;
+    width: 7px; height: 1400px;
+    background-color: rgba(120, 195, 255, 0.20);
+    rotate: -28deg;
+}
+
+.rs-a { left: 64.8%; }
+.rs-b { left: 66.8%; }
+.rs-c { left: 68.6%; }
+
+/* Widening delta where river mouth meets the pond */
+.scene-river-delta {
+    position: absolute;
+    left: 39%; bottom: 108px;
+    width: 118px; height: 32px;
+    border-radius: 50%;
+    background-color: rgba(22, 75, 155, 0.78);
+}
+
+/* ── Waterfall (river drops into the pond at ~left 43%) */
+.scene-fall {
+    position: absolute;
+    left: 43%; bottom: 102px;
+    width: 52px; height: 128px;
+    background-color: rgba(55, 135, 218, 0.82);
+    border-radius: 5px 5px 0 0;
+}
+
+.scene-fall-l {
+    position: absolute;
+    left: 41.5%; bottom: 112px;
+    width: 14px; height: 110px;
+    background-color: rgba(100, 175, 248, 0.52);
+    border-radius: 4px;
+}
+
+.scene-fall-r {
+    position: absolute;
+    left: 47%; bottom: 110px;
+    width: 12px; height: 102px;
+    background-color: rgba(100, 175, 248, 0.42);
+    border-radius: 4px;
+}
+
+/* Spray and mist at the base of the falls */
+.scene-fall-mist {
+    position: absolute;
+    left: 39%; bottom: 100px;
+    width: 98px; height: 40px;
+    border-radius: 50%;
+    background-color: rgba(162, 218, 255, 0.30);
+}
+
+.scene-fall-splash {
+    position: absolute;
+    left: 40.5%; bottom: 116px;
+    width: 68px; height: 22px;
+    border-radius: 50%;
+    background-color: rgba(215, 242, 255, 0.22);
+}
+
+/* ── Stones along riverbanks and scattered in grass */
+.stone {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(84, 90, 98, 0.88);
+}
+
+.s-1 { left: 40%;   bottom: 228px; width: 58px; height: 34px; rotate: -5deg; }
+.s-2 { left: 50%;   bottom: 242px; width: 44px; height: 26px; rotate:  9deg; }
+.s-3 { left: 38%;   bottom: 174px; width: 40px; height: 24px; rotate: -12deg; }
+.s-4 { left: 51%;   bottom: 185px; width: 50px; height: 30px; rotate:  13deg; }
+.s-5 { left: 16%;   bottom: 288px; width: 32px; height: 19px; rotate:   6deg; background-color: rgba(76, 82, 90, 0.70); }
+.s-6 { right: 20%;  bottom: 272px; width: 42px; height: 25px; rotate:  -9deg; background-color: rgba(80, 86, 94, 0.72); }
+.s-7 { left: 73%;   bottom: 258px; width: 30px; height: 17px; rotate:  18deg; background-color: rgba(72, 78, 86, 0.66); }
+
+/* ── Flowers */
+.flower {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.fl-yellow { background-color: rgba(255, 212, 38, 0.94); }
+.fl-pink   { background-color: rgba(255, 138, 168, 0.90); }
+.fl-white  { background-color: rgba(238, 248, 225, 0.88); }
+.fl-orange { background-color: rgba(255, 155, 52, 0.92); }
+.fl-purple { background-color: rgba(188, 98, 222, 0.90); }
+
+/* Left-side field */
+.fl-1  { left: 7%;   bottom: 302px; }
+.fl-2  { left: 10%;  bottom: 274px; }
+.fl-3  { left: 5%;   bottom: 260px; }
+.fl-4  { left: 15%;  bottom: 318px; }
+.fl-5  { left: 24%;  bottom: 297px; }
+.fl-6  { left: 28%;  bottom: 272px; }
+.fl-7  { left: 12%;  bottom: 248px; }
+/* Right-side field */
+.fl-8  { right: 7%;  bottom: 292px; }
+.fl-9  { right: 12%; bottom: 272px; }
+.fl-10 { right: 5%;  bottom: 260px; }
+.fl-11 { right: 18%; bottom: 310px; }
+.fl-12 { right: 25%; bottom: 284px; }
+.fl-13 { right: 30%; bottom: 262px; }
+.fl-14 { right: 10%; bottom: 248px; }
+
+/* ── Lily pads (in the pond strip) */
+.lily-pad {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(22, 94, 36, 0.75);
+}
+
+.lp-1 { left: 9%;   bottom: 28px; width: 40px; height: 30px; }
+.lp-2 { left: 30%;  bottom: 20px; width: 30px; height: 23px; }
+.lp-3 { left: 58%;  bottom: 34px; width: 36px; height: 27px; }
+.lp-4 { right: 11%; bottom: 22px; width: 44px; height: 34px; }
+.lp-5 { left: 73%;  bottom: 16px; width: 26px; height: 19px; }
+
+/* ── Pond shimmer ellipses */
+.pond-shimmer {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(90, 172, 228, 0.24);
+}
+
+.ps-1 { left: 14%;  bottom: 42px; width: 75px;  height: 14px; }
+.ps-2 { left: 38%;  bottom: 55px; width: 58px;  height: 11px; }
+.ps-3 { left: 60%;  bottom: 38px; width: 82px;  height: 15px; }
+.ps-4 { right: 9%;  bottom: 46px; width: 68px;  height: 12px; }
