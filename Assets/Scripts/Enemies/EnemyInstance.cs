@@ -76,6 +76,9 @@ public class EnemyInstance : MonoBehaviour
 
         _hitFlash = GetComponent<EnemyHitFlash>();
         _hitStop  = GetComponent<HitStop>();
+
+        if (GetComponent<SpriteDepthEffect>() == null && GetComponent<SpriteRenderer>() != null)
+            gameObject.AddComponent<SpriteDepthEffect>();
     }
 
     // ── Per-frame ─────────────────────────────────────────────────────────────

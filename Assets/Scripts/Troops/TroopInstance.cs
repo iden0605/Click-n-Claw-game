@@ -103,6 +103,9 @@ public class TroopInstance : MonoBehaviour
 
         _attackCount = 0;
         _rampingExpiries.Clear();
+
+        if (GetComponent<SpriteDepthEffect>() == null && GetComponent<SpriteRenderer>() != null)
+            gameObject.AddComponent<SpriteDepthEffect>();
     }
 
     // ── Upgrade / Evolve ──────────────────────────────────────────────────────
@@ -156,6 +159,9 @@ public class TroopInstance : MonoBehaviour
 
         TroopManager.Instance.Unregister(this);
         TroopManager.Instance.Register(newInst);
+
+        if (newInst.GetComponent<SpriteDepthEffect>() == null && newInst.GetComponent<SpriteRenderer>() != null)
+            newInst.gameObject.AddComponent<SpriteDepthEffect>();
 
         Destroy(gameObject);
         return newInst;

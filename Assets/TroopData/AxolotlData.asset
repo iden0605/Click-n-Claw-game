@@ -23,7 +23,7 @@ MonoBehaviour:
   isLandPlatform: 0
   useRectangularRange: 0
   rangeRectWidth: 0.6
-  baseCost: 200
+  baseCost: 400
   attack: 50
   attackSpeed: 1
   range: 2.5
@@ -64,4 +64,89 @@ MonoBehaviour:
     attackSpeedDelta: 0.2
     rangeDelta: 0
     effects: []
-  evolutions: []
+  - description: "Rattled \u2014 the daze sinks deeper, leaving enemies stumbling
+      far longer."
+    cost: 410
+    attackDelta: 40
+    attackSpeedDelta: 0
+    rangeDelta: 0
+    effects:
+    - effectType: 14
+      goldMultiplier: 0
+      conditionalAttack: 0
+      conditionalSpeed: 0
+      allyBonus: 0
+      dotDamage: 0
+      dotInterval: 0
+      dotDuration: 0
+      rampingDuration: 0
+      rampingMaxStacks: 0
+      freezeDuration: 0
+      freezeSlowFactor: 0
+      stunDuration: 2.5
+  - description: "Feedback Loop \u2014 the orb crackles between dazed enemies, refreshing
+      their confusion and dealing residual damage."
+    cost: 360
+    attackDelta: 30
+    attackSpeedDelta: 0.1
+    rangeDelta: 0
+    effects:
+    - effectType: 14
+      goldMultiplier: 0
+      conditionalAttack: 0
+      conditionalSpeed: 0
+      allyBonus: 0
+      dotDamage: 0
+      dotInterval: 0
+      dotDuration: 0
+      rampingDuration: 0
+      rampingMaxStacks: 0
+      freezeDuration: 0
+      freezeSlowFactor: 0
+      stunDuration: 2.5
+  - description: "Mind Shatter \u2014 enemies that shake off the daze don't recover
+      fully. Something in the pulse lingers."
+    cost: 400
+    attackDelta: 25
+    attackSpeedDelta: 0
+    rangeDelta: 0
+    effects:
+    - effectType: 14
+      goldMultiplier: 0
+      conditionalAttack: 0
+      conditionalSpeed: 0
+      allyBonus: 0
+      dotDamage: 0
+      dotInterval: 0
+      dotDuration: 0
+      rampingDuration: 0
+      rampingMaxStacks: 0
+      freezeDuration: 0
+      freezeSlowFactor: 0
+      stunDuration: 2.5
+  evolutions:
+  - evolutionName: Megalotl
+    description: "The axolotl ascends \u2014 its orb now carries a disorienting pulse
+      that stumbles every target it strikes, buying your troops precious time to
+      follow up."
+    portrait: {fileID: 21300000, guid: 9cf0d0d8b93364490a320d2205e937ce, type: 3}
+    prefab: {fileID: 110956383715447434, guid: 8c77aabd60ac847ac99d87dff6d82240, type: 3}
+    upgradesRequired: 3
+    evolutionCost: 350
+    attackBoost: 15
+    attackSpeedBoost: 0.1
+    rangeBoost: 0.2
+    effects:
+    - effectType: 14
+      goldMultiplier: 0
+      conditionalAttack: 0
+      conditionalSpeed: 0
+      allyBonus: 0
+      dotDamage: 0
+      dotInterval: 0
+      dotDuration: 0
+      rampingDuration: 0
+      rampingMaxStacks: 0
+      freezeDuration: 0
+      freezeSlowFactor: 0
+      stunDuration: 1.5
