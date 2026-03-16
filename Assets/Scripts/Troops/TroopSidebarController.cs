@@ -459,6 +459,24 @@ public class TroopSidebarController : MonoBehaviour
         }
     }
 
+    /// <summary>Close the sidebar programmatically (e.g. when a drag begins).</summary>
+    public void CloseSidebar()
+    {
+        if (!_isOpen) return;
+        _isOpen = false;
+        _sidebar.RemoveFromClassList("open");
+        _toggleBtn.text = "\u2630"; // ☰
+    }
+
+    /// <summary>Open the sidebar programmatically (e.g. after a successful troop placement).</summary>
+    public void OpenSidebar()
+    {
+        if (_isOpen) return;
+        _isOpen = true;
+        _sidebar.AddToClassList("open");
+        _toggleBtn.text = "\u2715"; // ✕
+    }
+
     // -------------------------------------------------------
     // Helpers
     // -------------------------------------------------------

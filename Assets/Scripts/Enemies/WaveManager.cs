@@ -33,11 +33,14 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<WaveData> waves = new();
 
     [Header("Options")]
-    [Tooltip("Default value for AutoProceed at scene start.")]
-    [SerializeField] private bool autoPlayBetweenWaves = false;
-
     [Tooltip("Call StartNextWave() automatically when the scene loads.")]
     [SerializeField] private bool startOnAwake = false;
+
+    [Tooltip("Seconds to count down between waves when no preWaveDelay is set on the next WaveData.")]
+    [SerializeField] private float defaultCountdownDuration = 5f;
+
+    // ── Internal ──────────────────────────────────────────────────────────────
+    private Coroutine _countdownCoroutine;
 
     // ── State ─────────────────────────────────────────────────────────────────
 
@@ -59,9 +62,11 @@ public class WaveManager : MonoBehaviour
     /// <summary>True after the last wave has been cleared.</summary>
     public bool AllWavesComplete => CurrentWaveIndex >= waves.Count - 1 && !IsWaveActive;
 
-    /// <summary>When true, the next wave starts automatically after the current one clears.
-    /// Milestone pop-ups still block progression until dismissed.</summary>
-    public bool AutoProceed { get; set; } = false;
+    /// <summary>True while counting down to the next wave.</summary>
+    public bool  IsCountingDown     { get; private set; } = false;
+
+    /// <summary>Seconds remaining until the next wave starts. Only valid while IsCountingDown.</summary>
+    public float CountdownRemaining { get; private set; } = 0f;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -69,7 +74,6 @@ public class WaveManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        AutoProceed = autoPlayBetweenWaves;
     }
 
     void Start()
@@ -110,6 +114,20 @@ public class WaveManager : MonoBehaviour
     {
         IsDoubleSpeed  = on;
         Time.timeScale = on ? 2f : 1f;
+    }
+
+    /// <summary>
+    /// Cancels the between-wave countdown and starts the next wave immediately.
+    /// Does nothing if no countdown is running.
+    /// </summary>
+    public void SkipCountdown()
+    {
+        if (!IsCountingDown) return;
+        if (_countdownCoroutine != null) StopCoroutine(_countdownCoroutine);
+        _countdownCoroutine = null;
+        CountdownRemaining  = 0f;
+        IsCountingDown      = false;
+        StartNextWave();
     }
 
     /// <summary>
@@ -198,21 +216,32 @@ public class WaveManager : MonoBehaviour
         Debug.Log($"[WaveManager] ── Wave {CurrentWaveIndex + 1} cleared! ──");
         WaveCleared?.Invoke(CurrentWaveIndex);
 
-        if (!AutoProceed) return;
-
         int nextIndex = CurrentWaveIndex + 1;
         if (nextIndex >= waves.Count) return;
 
-        float delay = waves[nextIndex].preWaveDelay;
-        StartCoroutine(AutoStartNext(delay));
+        float delay = waves[nextIndex].preWaveDelay > 0f
+            ? waves[nextIndex].preWaveDelay
+            : defaultCountdownDuration;
+
+        _countdownCoroutine = StartCoroutine(CountdownToNextWave(delay));
     }
 
-    IEnumerator AutoStartNext(float delay)
+    IEnumerator CountdownToNextWave(float duration)
     {
-        // Always yield so that any milestone popup (which sets timeScale=0) can
-        // freeze this coroutine until the player dismisses the popup.
-        yield return new WaitForSeconds(delay);
-        if (AutoProceed) StartNextWave();
+        IsCountingDown     = true;
+        CountdownRemaining = duration;
+
+        // Yielding per-frame lets milestone popups (timeScale = 0) freeze the
+        // countdown naturally — Time.deltaTime is 0 while paused.
+        while (CountdownRemaining > 0f)
+        {
+            yield return null;
+            CountdownRemaining -= Time.deltaTime;
+        }
+
+        CountdownRemaining = 0f;
+        IsCountingDown     = false;
+        StartNextWave();
     }
 
     static string Data(EnemyInstance e) =>
