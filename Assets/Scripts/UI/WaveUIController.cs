@@ -14,6 +14,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class WaveUIController : MonoBehaviour
 {
+    public static WaveUIController Instance { get; private set; }
+
     [Header("Heart Animation")]
     [Tooltip("Sprite frames in order: 0, 1, 2, 3, 4")]
     [SerializeField] private Sprite[] heartSprites;
@@ -30,6 +32,12 @@ public class WaveUIController : MonoBehaviour
     private float _animTime = 0f;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+    }
 
     void OnEnable()
     {
