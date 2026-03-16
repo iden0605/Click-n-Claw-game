@@ -24,7 +24,7 @@ public class TroopInstance : MonoBehaviour
     /// <summary>Seconds between attacks. Use this in all attack scripts.</summary>
     public float CurrentAttackInterval => 1f / Mathf.Max(0.01f, CurrentAttackSpeed);
 
-    public int  SellValue       => Mathf.RoundToInt(TotalGoldSpent * 0.5f);
+    public int  SellValue       => Mathf.RoundToInt(TotalGoldSpent * 0.8f);
     /// <summary>
     /// True when the player has reached the upgrade threshold required to trigger the next
     /// evolution but hasn't evolved yet — they must evolve before upgrading further.

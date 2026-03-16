@@ -24,6 +24,8 @@ public class PauseManager : MonoBehaviour
     private bool _wasDoubleSpeed = false;
 
     private VisualElement _pauseRoot;
+    private Slider        _musicSlider;
+    private Slider        _sfxSlider;
 
     // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -41,6 +43,21 @@ public class PauseManager : MonoBehaviour
         root.Q<Button>("continue-btn").clicked += OnContinue;
         root.Q<Button>("restart-btn") .clicked += OnRestart;
         root.Q<Button>("quit-btn")    .clicked += OnQuit;
+
+        _musicSlider = root.Q<Slider>("music-slider");
+        _sfxSlider   = root.Q<Slider>("sfx-slider");
+
+        // Initialise slider positions from saved values
+        if (AudioManager.Instance != null)
+        {
+            if (_musicSlider != null) _musicSlider.value = AudioManager.Instance.MusicVolume;
+            if (_sfxSlider   != null) _sfxSlider.value   = AudioManager.Instance.SFXVolume;
+        }
+
+        if (_musicSlider != null)
+            _musicSlider.RegisterValueChangedCallback(e => AudioManager.Instance?.SetMusicVolume(e.newValue));
+        if (_sfxSlider != null)
+            _sfxSlider.RegisterValueChangedCallback(e => AudioManager.Instance?.SetSFXVolume(e.newValue));
     }
 
     void OnDisable()
@@ -58,6 +75,9 @@ public class PauseManager : MonoBehaviour
 
         var quitBtn = root.Q<Button>("quit-btn");
         if (quitBtn != null) quitBtn.clicked -= OnQuit;
+
+        _musicSlider?.UnregisterValueChangedCallback(e => AudioManager.Instance?.SetMusicVolume(e.newValue));
+        _sfxSlider?.UnregisterValueChangedCallback(e => AudioManager.Instance?.SetSFXVolume(e.newValue));
     }
 
     void Update()

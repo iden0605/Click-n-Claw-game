@@ -44,12 +44,18 @@ public class EvolveCutscene : MonoBehaviour
     private const float MinRotSpeed  = 50f;
     private const float MaxRotSpeed  = 1260f;  // ~3.5 full rotations per second at peak
 
+    // ── Flash colours (hue steps for HSV cycling) ────────────────────────────
+
+    private float _flashHue = 0f;
+
     // ── UI refs ───────────────────────────────────────────────────────────────
 
     private Canvas        _canvas;
     private Image         _blackPanel;
     private Image         _spriteImage;
     private RectTransform _spriteRect;
+    private Image         _shadowImage;
+    private RectTransform _shadowRect;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -68,22 +74,39 @@ public class EvolveCutscene : MonoBehaviour
         _canvas.sortingOrder = 1000;   // always on top of every UIDocument
         gameObject.AddComponent<CanvasScaler>();
 
-        // Full-screen black panel — starts fully transparent
+        // Full-screen black panel — starts fully transparent, never blocks raycasts
         var bgGo = new GameObject("CutsceneBG");
         bgGo.transform.SetParent(transform, false);
-        _blackPanel       = bgGo.AddComponent<Image>();
-        _blackPanel.color = new Color(0f, 0f, 0f, 0f);
+        _blackPanel               = bgGo.AddComponent<Image>();
+        _blackPanel.color         = new Color(0f, 0f, 0f, 0f);
+        _blackPanel.raycastTarget = false;
         var bgRect = bgGo.GetComponent<RectTransform>();
         bgRect.anchorMin = Vector2.zero;
         bgRect.anchorMax = Vector2.one;
         bgRect.offsetMin = bgRect.offsetMax = Vector2.zero;
 
+        // Shadow ellipse — sits just below the sprite, does not rotate
+        var shGo = new GameObject("CutsceneShadow");
+        shGo.transform.SetParent(transform, false);
+        _shadowImage               = shGo.AddComponent<Image>();
+        _shadowImage.sprite        = BuildEllipseSprite(128, 40);
+        _shadowImage.color         = new Color(0f, 0f, 0f, 0.55f);
+        _shadowImage.raycastTarget = false;
+        _shadowRect              = shGo.GetComponent<RectTransform>();
+        _shadowRect.anchorMin    = new Vector2(0.5f, 0.5f);
+        _shadowRect.anchorMax    = new Vector2(0.5f, 0.5f);
+        _shadowRect.pivot        = new Vector2(0.5f, 0.5f);
+        _shadowRect.sizeDelta    = new Vector2(260f, 50f);
+        _shadowRect.anchoredPosition = new Vector2(0f, -158f);
+        _shadowRect.localScale   = Vector3.zero;
+
         // Sprite display — centred, starts invisible
         var spGo = new GameObject("CutsceneSprite");
         spGo.transform.SetParent(transform, false);
-        _spriteImage              = spGo.AddComponent<Image>();
+        _spriteImage                = spGo.AddComponent<Image>();
         _spriteImage.preserveAspect = true;
-        _spriteImage.color        = Color.white;
+        _spriteImage.color          = Color.white;
+        _spriteImage.raycastTarget  = false;
         _spriteRect               = spGo.GetComponent<RectTransform>();
         _spriteRect.anchorMin        = new Vector2(0.5f, 0.5f);
         _spriteRect.anchorMax        = new Vector2(0.5f, 0.5f);
@@ -91,6 +114,26 @@ public class EvolveCutscene : MonoBehaviour
         _spriteRect.sizeDelta        = new Vector2(300f, 300f);
         _spriteRect.anchoredPosition = Vector2.zero;
         _spriteRect.localScale       = Vector3.zero;   // invisible until zoom-in
+    }
+
+    /// <summary>Builds a soft radial-gradient ellipse texture for the drop shadow.</summary>
+    static Sprite BuildEllipseSprite(int w, int h)
+    {
+        var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        var pixels = new Color32[w * h];
+        float cx = w * 0.5f, cy = h * 0.5f;
+        for (int y = 0; y < h; y++)
+        for (int x = 0; x < w; x++)
+        {
+            float nx = (x - cx) / cx;
+            float ny = (y - cy) / cy;
+            float d  = Mathf.Sqrt(nx * nx + ny * ny);
+            byte  a  = (byte)(Mathf.Clamp01(1f - d) * 255f);
+            pixels[y * w + x] = new Color32(0, 0, 0, a);
+        }
+        tex.SetPixels32(pixels);
+        tex.Apply();
+        return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f));
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -119,6 +162,7 @@ public class EvolveCutscene : MonoBehaviour
             var go = new GameObject("EvolveCutscene");
             go.AddComponent<EvolveCutscene>();
         }
+        Instance.gameObject.SetActive(true);
         Instance.StartCoroutine(Instance.RunCutscene(from, to, worldPos, onComplete));
     }
 
@@ -127,10 +171,12 @@ public class EvolveCutscene : MonoBehaviour
     IEnumerator RunCutscene(Sprite from, Sprite to, Vector3 worldPos, Action onComplete)
     {
         Time.timeScale = 0f;
+        _flashHue = 0f;
 
-        _spriteImage.sprite      = from;
+        _spriteImage.sprite          = from;
         _spriteRect.localScale       = Vector3.zero;
         _spriteRect.localEulerAngles = Vector3.zero;
+        _shadowRect.localScale       = Vector3.zero;
 
         // 1 ── Fade in black ─────────────────────────────────────────────────
         yield return FadePanel(0f, 1f, FadeInDuration);
@@ -143,11 +189,13 @@ public class EvolveCutscene : MonoBehaviour
             t += Time.unscaledDeltaTime;
             float s = EaseOutBack(Mathf.Clamp01(t / ZoomInDuration));
             _spriteRect.localScale = Vector3.one * s;
+            SyncShadow(s);
             yield return null;
         }
         _spriteRect.localScale = Vector3.one;
+        SyncShadow(1f);
 
-        // 3 ── Accelerate rotation ────────────────────────────────────────────
+        // 3 ── Accelerate rotation — background flashes, screen shakes ────────
         float angle = 0f;
         t = 0f;
         while (t < AccelDuration)
@@ -157,23 +205,30 @@ public class EvolveCutscene : MonoBehaviour
             float speed    = Mathf.Lerp(MinRotSpeed, MaxRotSpeed, progress * progress);
             angle += speed * Time.unscaledDeltaTime;
             _spriteRect.localEulerAngles = new Vector3(0f, 0f, angle);
+            FlashBackground(speed, Time.unscaledDeltaTime);
+            ApplyShake(progress * progress);
             yield return null;
         }
 
         // 4 ── Swap to evolved sprite at peak speed ───────────────────────────
         _spriteImage.sprite = to;
 
-        // 5 ── Decelerate rotation ────────────────────────────────────────────
+        // 5 ── Decelerate rotation — flashing and shake fade out ──────────────
         t = 0f;
         while (t < DecelDuration)
         {
             t += Time.unscaledDeltaTime;
-            float progress = Mathf.Clamp01(t / DecelDuration);
-            float speed    = Mathf.Lerp(MaxRotSpeed, MinRotSpeed, progress * progress);
+            float progress  = Mathf.Clamp01(t / DecelDuration);
+            float fadeOut   = 1f - progress * progress;
+            float speed     = Mathf.Lerp(MaxRotSpeed, MinRotSpeed, progress * progress);
             angle += speed * Time.unscaledDeltaTime;
             _spriteRect.localEulerAngles = new Vector3(0f, 0f, angle);
+            FlashBackground(speed * fadeOut, Time.unscaledDeltaTime);
+            ApplyShake(fadeOut * 0.6f);
             yield return null;
         }
+        _blackPanel.color = Color.black;
+        ApplyShake(0f);
 
         // 6 ── Zoom out (ease-in quad — snappy disappearance) ─────────────────
         t = 0f;
@@ -181,10 +236,13 @@ public class EvolveCutscene : MonoBehaviour
         {
             t += Time.unscaledDeltaTime;
             float p = Mathf.Clamp01(t / ZoomOutDuration);
-            _spriteRect.localScale = Vector3.one * (1f - p * p);
+            float s = 1f - p * p;
+            _spriteRect.localScale = Vector3.one * s;
+            SyncShadow(s);
             yield return null;
         }
         _spriteRect.localScale = Vector3.zero;
+        _shadowRect.localScale = Vector3.zero;
 
         // 7 ── Restore time and trigger evolution ─────────────────────────────
         Time.timeScale = 1f;
@@ -197,9 +255,56 @@ public class EvolveCutscene : MonoBehaviour
         SpawnEvolveBurst(worldPos);
         yield return new WaitForSeconds(BurstHold);
 
-        // Reset for next use
+        // Reset for next use and hide so it never blocks input between cutscenes
         var c = _blackPanel.color; c.a = 0f; _blackPanel.color = c;
         _spriteRect.localScale = Vector3.zero;
+        gameObject.SetActive(false);
+    }
+
+    // ── Screen shake ─────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Offsets the sprite rect by a random amount scaled to <paramref name="intensity"/> (0–1).
+    /// Call every frame during rotation; pass 0 to reset to centre.
+    /// </summary>
+    void ApplyShake(float intensity)
+    {
+        if (_spriteRect == null) return;
+        const float maxOffset = 18f;
+        if (intensity <= 0f)
+        {
+            _spriteRect.anchoredPosition = Vector2.zero;
+            return;
+        }
+        float mag = maxOffset * intensity;
+        _spriteRect.anchoredPosition = new Vector2(
+            UnityEngine.Random.Range(-mag, mag),
+            UnityEngine.Random.Range(-mag, mag));
+    }
+
+    // ── Background flash ──────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Cycles the background through vivid hues. Speed controls how fast hue advances
+    /// and how saturated/bright the flash is.
+    /// </summary>
+    void FlashBackground(float rotSpeed, float dt)
+    {
+        float t = Mathf.Clamp01(rotSpeed / MaxRotSpeed);
+        // Hue cycles faster the faster the rotation
+        _flashHue = (_flashHue + dt * Mathf.Lerp(0.3f, 2.5f, t)) % 1f;
+        Color flash = Color.HSVToRGB(_flashHue, 0.45f, 0.55f);
+        _blackPanel.color = Color.Lerp(Color.black, flash, t * t * 0.6f);
+    }
+
+    // ── Shadow sync ───────────────────────────────────────────────────────────
+
+    /// <summary>Scales and fades the shadow to match the sprite's current scale.</summary>
+    void SyncShadow(float spriteScale)
+    {
+        if (_shadowRect == null) return;
+        _shadowRect.localScale   = new Vector3(spriteScale, spriteScale * 0.6f, 1f);
+        _shadowImage.color       = new Color(0f, 0f, 0f, 0.55f * spriteScale);
     }
 
     // ── Panel fade helper ─────────────────────────────────────────────────────

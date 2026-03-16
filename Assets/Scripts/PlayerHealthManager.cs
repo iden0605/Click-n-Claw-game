@@ -14,7 +14,7 @@ public class PlayerHealthManager : MonoBehaviour
     public static PlayerHealthManager Instance { get; private set; }
 
     [Header("Settings")]
-    [SerializeField] private int startingHealth = 100;
+    [SerializeField] private int startingHealth = 1100;
 
     // ── State ─────────────────────────────────────────────────────────────────
 

@@ -17,4 +17,5 @@ MonoBehaviour:
   isVictory: 0
   unlockedTroops:
   - {fileID: 11400000, guid: 41babfac5269c46819720b5ee5e65e02, type: 2}
+  - {fileID: 11400000, guid: ca7416d7f3e1c4f3d8d8a2fe64f70026, type: 2}
   evolutionUnlocks: []

@@ -155,6 +155,28 @@ public class EnemyCrackOverlay : MonoBehaviour
             }
         }
 
+        // Circular crop — zero out pixels outside the inscribed circle and
+        // softly fade the outer 15% so the edge isn't a hard ring.
+        float cxM = sz * 0.5f, cyM = sz * 0.5f;
+        float rOuter = sz * 0.38f;
+        float rInner = rOuter * 0.85f;
+        for (int y = 0; y < sz; y++)
+        for (int x = 0; x < sz; x++)
+        {
+            float dist = Mathf.Sqrt((x - cxM) * (x - cxM) + (y - cyM) * (y - cyM));
+            if (dist >= rOuter)
+            {
+                px[y * sz + x] = new Color32(0, 0, 0, 0);
+            }
+            else if (dist > rInner)
+            {
+                float t = 1f - (dist - rInner) / (rOuter - rInner);
+                var   p = px[y * sz + x];
+                p.a = (byte)(p.a * t);
+                px[y * sz + x] = p;
+            }
+        }
+
         var tex = new Texture2D(sz, sz, TextureFormat.RGBA32, false);
         tex.filterMode = FilterMode.Bilinear;
         tex.wrapMode   = TextureWrapMode.Clamp;

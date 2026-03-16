@@ -33,6 +33,7 @@ public class TroopManager : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
         if (TroopDragController.Instance.IsDragging) return;
+        if (UIInputBlocker.IsPointerOverUI()) return;
 
         var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hits = Physics2D.RaycastAll(new Vector2(worldPos.x, worldPos.y), Vector2.zero);

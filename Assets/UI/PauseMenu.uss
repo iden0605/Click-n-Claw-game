@@ -99,6 +99,56 @@
     border-color: rgba(82, 170, 220, 0.72);
 }
 
+/* ── Volume rows ──────────────────────────────────────────── */
+.pause-volume-row {
+    flex-direction: row;
+    align-items: center;
+    width: 260px;
+    margin-bottom: 14px;
+}
+
+.pause-slider {
+    width: 140px;
+    flex-grow: 0;
+}
+
+.pause-volume-label {
+    width: 52px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    color: rgba(178, 255, 134, 0.75);
+    -unity-text-align: middle-left;
+}
+
+
+.pause-slider > .unity-base-slider__tracker {
+    background-color: rgba(88, 200, 76, 0.20);
+    border-color: rgba(88, 200, 76, 0.30);
+    border-width: 1px;
+    border-radius: 4px;
+    height: 6px;
+}
+
+.pause-slider > .unity-base-slider__dragger {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background-color: rgb(88, 200, 76);
+    border-color: rgba(178, 255, 134, 0.60);
+    border-width: 2px;
+    margin-top: -6px;
+}
+
+.pause-slider:hover > .unity-base-slider__dragger {
+    background-color: rgb(130, 240, 110);
+}
+
+.pause-divider--slim {
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
 /* Quit — deep red */
 .pause-btn--quit {
     background-color: rgba(108, 26, 20, 0.82);

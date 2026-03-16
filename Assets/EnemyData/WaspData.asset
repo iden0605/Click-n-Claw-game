@@ -18,9 +18,9 @@ MonoBehaviour:
     any damage."
   portrait: {fileID: 21300000, guid: 02fab406714fd43f295572ccb6f8352d, type: 3}
   prefab: {fileID: 6594975445279042201, guid: 7d624a3f385a844bab58644be340586c, type: 3}
-  baseHealth: 70
+  baseHealth: 160
   speed: 1.8
-  goldDrop: 13
+  goldDrop: 16
   effectType: 9
   effectValue: 0.6
   effectValue2: 2

@@ -16,5 +16,6 @@ MonoBehaviour:
   triggerAfterWave: 29
   isVictory: 0
   unlockedTroops:
+  - {fileID: 11400000, guid: be401ff3ed3c44b35a12508b1396a08e, type: 2}
   - {fileID: 11400000, guid: 44d27d3b1700643cf952816cd4f37cf9, type: 2}
   evolutionUnlocks: []

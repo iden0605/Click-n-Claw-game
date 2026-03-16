@@ -14,6 +14,18 @@
             <ui:Label text="PAUSED" class="pause-title" />
             <ui:VisualElement class="pause-divider" />
 
+            <!-- Volume controls -->
+            <ui:VisualElement class="pause-volume-row">
+                <ui:Label text="MUSIC" class="pause-volume-label" />
+                <ui:Slider name="music-slider" low-value="0" high-value="1" value="1" class="pause-slider" />
+            </ui:VisualElement>
+            <ui:VisualElement class="pause-volume-row">
+                <ui:Label text="SFX" class="pause-volume-label" />
+                <ui:Slider name="sfx-slider" low-value="0" high-value="1" value="1" class="pause-slider" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="pause-divider pause-divider--slim" />
+
             <ui:Button name="continue-btn" text="CONTINUE"       class="pause-btn pause-btn--continue" />
             <ui:Button name="restart-btn"  text="RESTART LEVEL"  class="pause-btn pause-btn--restart"  />
             <ui:Button name="quit-btn"     text="QUIT TO MENU"   class="pause-btn pause-btn--quit"     />

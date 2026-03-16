@@ -33,11 +33,27 @@ public class AudioManager : MonoBehaviour
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
+    private const string PrefMusic = "vol_music";
+    private const string PrefSFX   = "vol_sfx";
+
+    public float MusicVolume { get; private set; } = 1f;
+    public float SFXVolume   { get; private set; } = 1f;
+
     void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        // Apply saved volumes after AudioSources are ready
+        EnsureSources();
+        MusicVolume = PlayerPrefs.GetFloat(PrefMusic, 1f);
+        SFXVolume   = PlayerPrefs.GetFloat(PrefSFX,   1f);
+        if (musicSource != null) musicSource.volume = MusicVolume;
+        if (sfxSource   != null) sfxSource.volume   = SFXVolume;
     }
 
     void OnEnable()
@@ -63,7 +79,10 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
-        if (clip == null || (musicSource.clip == clip && musicSource.isPlaying)) return;
+        if (clip == null) return;
+        EnsureSources();
+        if (musicSource == null) return;
+        if (musicSource.clip == clip && musicSource.isPlaying) return;
         musicSource.clip = clip;
         musicSource.Play();
     }
@@ -71,12 +90,41 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (clip == null) return;
+        EnsureSources();
+        if (sfxSource == null) return;
         sfxSource.PlayOneShot(clip, volume);
     }
 
-    public void PauseMusic()  => musicSource.Pause();
-    public void ResumeMusic() => musicSource.UnPause();
+    public void PauseMusic()  { EnsureSources(); musicSource?.Pause(); }
+    public void ResumeMusic() { EnsureSources(); musicSource?.UnPause(); }
 
-    public void SetMusicVolume(float v) => musicSource.volume = Mathf.Clamp01(v);
-    public void SetSFXVolume(float v)   => sfxSource.volume   = Mathf.Clamp01(v);
+    /// <summary>
+    /// Re-acquires AudioSource references if the originals were destroyed
+    /// (can happen when the scene that owned them unloads before DontDestroyOnLoad kicks in).
+    /// </summary>
+    void EnsureSources()
+    {
+        if (musicSource == null || sfxSource == null)
+        {
+            var sources = GetComponents<AudioSource>();
+            if (sources.Length >= 1 && musicSource == null) musicSource = sources[0];
+            if (sources.Length >= 2 && sfxSource   == null) sfxSource   = sources[1];
+        }
+    }
+
+    public void SetMusicVolume(float v)
+    {
+        MusicVolume = Mathf.Clamp01(v);
+        EnsureSources();
+        if (musicSource != null) musicSource.volume = MusicVolume;
+        PlayerPrefs.SetFloat(PrefMusic, MusicVolume);
+    }
+
+    public void SetSFXVolume(float v)
+    {
+        SFXVolume = Mathf.Clamp01(v);
+        EnsureSources();
+        if (sfxSource != null) sfxSource.volume = SFXVolume;
+        PlayerPrefs.SetFloat(PrefSFX, SFXVolume);
+    }
 }

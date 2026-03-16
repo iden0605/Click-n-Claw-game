@@ -210,7 +210,8 @@ public class TroopDragController : MonoBehaviour
         // MoveTroop: click to place (skip activation frame)
         else if (_mode == DragMode.MoveTroop
                  && Input.GetMouseButtonDown(0)
-                 && Time.frameCount > _activationFrame)
+                 && Time.frameCount > _activationFrame
+                 && !UIInputBlocker.IsPointerOverUI())
         {
             if (_overCancelBin)
             {
@@ -311,8 +312,15 @@ public class TroopDragController : MonoBehaviour
         var pos2D = new Vector2(worldPos.x, worldPos.y);
         foreach (var troop in TroopManager.Instance.PlacedTroops)
         {
-            var troopPos = new Vector2(troop.transform.position.x, troop.transform.position.y);
-            if (Vector2.Distance(pos2D, troopPos) < overlapRadius)
+            // Always check the home/placement position, not current position.
+            // Mobile troops (DragonFly etc.) move away from their tile, so
+            // transform.position would give false positives when they fly past the cursor.
+            var silhouette = troop.GetComponent<TroopHomeSilhouette>();
+            Vector2 checkPos = silhouette != null
+                ? new Vector2(silhouette.HomePosition.x, silhouette.HomePosition.y)
+                : new Vector2(troop.transform.position.x, troop.transform.position.y);
+
+            if (Vector2.Distance(pos2D, checkPos) < overlapRadius)
                 return true;
         }
         return false;
