@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdc0d77ded94e53b987da58d95c257, type: 3}
   m_Name: Intermission 0
   m_EditorClassIdentifier: 
-  entries: []
+  entries:
+  - enemyData: {fileID: 0}
+    count: 0
+    spawnInterval: 0
+    groupDelay: 0
   preWaveDelay: 10

@@ -25,7 +25,7 @@ MonoBehaviour:
   baseCost: 50
   attack: 4
   attackSpeed: 1.2
-  range: 1
+  range: 1.5
   attackType: 1
   projectileType: 0
   splashRadius: 0.5

@@ -406,17 +406,17 @@ public class EnemyVisualEffects : MonoBehaviour
         var main = _dazePS.main;
         main.loop            = true;
         main.simulationSpace = ParticleSystemSimulationSpace.Local;
-        main.startLifetime   = new ParticleSystem.MinMaxCurve(0.25f, 0.45f);
-        main.startSpeed      = new ParticleSystem.MinMaxCurve(0.05f, 0.20f);
-        main.startSize       = new ParticleSystem.MinMaxCurve(0.04f, 0.08f);
+        main.startLifetime   = new ParticleSystem.MinMaxCurve(0.35f, 0.55f);
+        main.startSpeed      = new ParticleSystem.MinMaxCurve(0.01f, 0.04f);
+        main.startSize       = new ParticleSystem.MinMaxCurve(0.02f, 0.04f);
         main.startColor      = new ParticleSystem.MinMaxGradient(
                                    new Color(0.80f, 0.20f, 1.00f),   // vivid purple
                                    new Color(0.55f, 0.00f, 0.85f));  // deep violet
-        main.gravityModifier = -0.04f;
-        main.maxParticles    = 14;
+        main.gravityModifier = 0f;
+        main.maxParticles    = 4;
 
         var emission = _dazePS.emission;
-        emission.rateOverTime = 10f;
+        emission.rateOverTime = 2f;
 
         var shape = _dazePS.shape;
         shape.enabled   = true;

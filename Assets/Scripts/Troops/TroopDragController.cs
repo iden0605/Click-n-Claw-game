@@ -34,6 +34,12 @@ public class TroopDragController : MonoBehaviour
     [Tooltip("Optional: assign a scene RangeIndicator — auto-created at runtime if left empty")]
     [SerializeField] private RangeIndicator dragRangeIndicator;
 
+    [Header("Cancel Bin")]
+    [Tooltip("Assign bin.png (or any Sprite) to use as the bin icon instead of the default emoji")]
+    [SerializeField] private Sprite binSprite;
+    [Tooltip("Overall size of the cancel bin circle in UI pixels — scales the whole widget")]
+    [SerializeField] private float binSize = 80f;
+
     [Header("Drag Behaviour")]
     [Tooltip("Pixels the mouse must move from pointer-down before the sidebar auto-closes")]
     [SerializeField] private float dragThreshold = 8f;
@@ -57,6 +63,7 @@ public class TroopDragController : MonoBehaviour
     // Cancel bin
     private VisualElement _cancelBinWrapper;
     private VisualElement _cancelBin;
+    private VisualElement _cancelBinIcon;
     private bool          _overCancelBin;
 
     void Awake()
@@ -126,6 +133,14 @@ public class TroopDragController : MonoBehaviour
     void Update()
     {
         if (_mode == DragMode.None || _ghost == null) return;
+
+        // Keep bin size in sync so Inspector changes take effect immediately
+        ApplyBinSize();
+        if (_cancelBinIcon != null)
+        {
+            _cancelBinIcon.style.width  = binSize;
+            _cancelBinIcon.style.height = binSize;
+        }
 
         var root = _uiDoc.rootVisualElement;
         float px = (Input.mousePosition.x / Screen.width)                    * root.resolvedStyle.width;
@@ -377,15 +392,16 @@ public class TroopDragController : MonoBehaviour
         _cancelBin = new VisualElement();
         _cancelBin.AddToClassList("drag-cancel-bin");
         _cancelBin.pickingMode = PickingMode.Ignore;
+        ApplyBinSize();
 
-        var icon = new Label("\U0001f5d1"); // 🗑 wastebasket
-        icon.AddToClassList("drag-cancel-bin-icon");
+        _cancelBinIcon = new VisualElement();
+        _cancelBinIcon.AddToClassList("drag-cancel-bin-icon");
+        _cancelBinIcon.style.width  = binSize;
+        _cancelBinIcon.style.height = binSize;
+        if (binSprite != null)
+            _cancelBinIcon.style.backgroundImage = new StyleBackground(binSprite);
 
-        var label = new Label("CANCEL");
-        label.AddToClassList("drag-cancel-bin-label");
-
-        _cancelBin.Add(icon);
-        _cancelBin.Add(label);
+        _cancelBin.Add(_cancelBinIcon);
         _cancelBinWrapper.Add(_cancelBin);
         _uiDoc.rootVisualElement.Add(_cancelBinWrapper);
     }
@@ -396,6 +412,17 @@ public class TroopDragController : MonoBehaviour
             _cancelBinWrapper.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
         if (_cancelBin != null)
             _cancelBin.RemoveFromClassList("drag-cancel-bin--hover");
+    }
+
+    void ApplyBinSize()
+    {
+        if (_cancelBin == null) return;
+        _cancelBin.style.width        = binSize;
+        _cancelBin.style.height       = binSize;
+        _cancelBin.style.borderTopLeftRadius     = binSize * 0.5f;
+        _cancelBin.style.borderTopRightRadius    = binSize * 0.5f;
+        _cancelBin.style.borderBottomLeftRadius  = binSize * 0.5f;
+        _cancelBin.style.borderBottomRightRadius = binSize * 0.5f;
     }
 
     void ShowDragRange(float range)
