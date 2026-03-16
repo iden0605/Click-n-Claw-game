@@ -2185,7 +2185,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 692f0a5f84ae0f245b9e2e68349243dc, type: 2}
   - {fileID: 11400000, guid: 2532eebf40333b745aead2a4cfc799e7, type: 2}
   - {fileID: 11400000, guid: 0974115a9c9df9d4e9538115f2d0c6a5, type: 2}
-  panelBackground: {fileID: 0}
+  panelBackground: {fileID: 21300000, guid: 8eb4ab55597216b44b5fdc3280202afd, type: 3}
 --- !u!114 &1038002365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2202,6 +2202,63 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: c23cf1c7ffeda4c4aa011787f6506d82, type: 3}
   m_SortingOrder: 20
+--- !u!1 &1055469770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055469772}
+  - component: {fileID: 1055469771}
+  m_Layer: 0
+  m_Name: TroopUnlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1055469771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055469770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fa7e4db1d5ea541903aea97b702dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingTroops:
+  - {fileID: 11400000, guid: cdd9444a3378a449690808faf7699a9e, type: 2}
+  milestones:
+  - {fileID: 11400000, guid: d9d4d63fac7671f42810d645425471df, type: 2}
+  - {fileID: 11400000, guid: 0c47bb659e46a084e83430d73f132012, type: 2}
+  - {fileID: 11400000, guid: 34a2702c27627494d97503491d7ae586, type: 2}
+  - {fileID: 11400000, guid: fc638bf7be8ef01409e70a7a85aac586, type: 2}
+  - {fileID: 11400000, guid: 6708894c99606db4488d89c0438b85f0, type: 2}
+  - {fileID: 11400000, guid: c7524bb0b480c6f41a18fad678508b22, type: 2}
+  - {fileID: 11400000, guid: 9b7093c99a1256847ae78ba6659ddf6d, type: 2}
+  - {fileID: 11400000, guid: 692f0a5f84ae0f245b9e2e68349243dc, type: 2}
+  - {fileID: 11400000, guid: 2532eebf40333b745aead2a4cfc799e7, type: 2}
+  - {fileID: 11400000, guid: 0974115a9c9df9d4e9538115f2d0c6a5, type: 2}
+--- !u!4 &1055469772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055469770}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.79706836, y: 0.97005856, z: 0.018371958}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1136850465 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 882307481589545232, guid: 7d624a3f385a844bab58644be340586c, type: 3}
@@ -3858,6 +3915,8 @@ MonoBehaviour:
   paddingV: 8
   topMargin: 14
   cornerRadius: 10
+  badgeHeight: 32
+  fontSize: 14
 --- !u!114 &1880854877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5897,3 +5956,4 @@ SceneRoots:
   - {fileID: 25439010}
   - {fileID: 880659459}
   - {fileID: 51961633}
+  - {fileID: 1055469772}

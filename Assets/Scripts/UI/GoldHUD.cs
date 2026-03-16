@@ -21,12 +21,16 @@ public class GoldHUD : MonoBehaviour
 
     [Header("Visuals")]
     [Tooltip("Padding inside the gold badge (px).")]
-    [SerializeField] private int paddingH = 8;
+    [SerializeField] private int paddingH = 20;
     [SerializeField] private int paddingV = 0;
     [Tooltip("Top margin from the screen edge (px).")]
     [SerializeField] private int topMargin = 0;
     [Tooltip("Corner radius of the badge (px).")]
-    [SerializeField] private int cornerRadius = 6;
+    [SerializeField] private int cornerRadius = 14;
+    [Tooltip("Height of the badge (px).")]
+    [SerializeField] private int badgeHeight = 60;
+    [Tooltip("Font size of the gold label (px).")]
+    [SerializeField] private int fontSize = 26;
 
     private VisualElement _badge;
     private Label         _goldLabel;
@@ -125,7 +129,7 @@ public class GoldHUD : MonoBehaviour
         _badge.style.borderBottomColor           = new StyleColor(new Color(0.85f, 0.65f, 0.10f, 0.55f));
         _badge.style.borderLeftColor             = new StyleColor(new Color(0.85f, 0.65f, 0.10f, 0.55f));
         _badge.style.borderRightColor            = new StyleColor(new Color(0.85f, 0.65f, 0.10f, 0.55f));
-        _badge.style.height                      = 20;
+        _badge.style.height                      = badgeHeight;
         _badge.style.flexDirection               = FlexDirection.Row;
         _badge.style.alignItems                  = Align.Center;
         _badge.pickingMode                       = PickingMode.Ignore;
@@ -133,7 +137,7 @@ public class GoldHUD : MonoBehaviour
 
         // "G " prefix acts as the icon
         var prefix = new Label("G ");
-        prefix.style.fontSize                  = 9;
+        prefix.style.fontSize                  = fontSize;
         prefix.style.color                     = new StyleColor(new Color(0.85f, 0.65f, 0.25f, 0.85f));
         prefix.style.unityFontStyleAndWeight   = FontStyle.Bold;
         prefix.style.marginTop                 = 0;
@@ -145,7 +149,7 @@ public class GoldHUD : MonoBehaviour
         _badge.Add(prefix);
 
         _goldLabel = new Label("0");
-        _goldLabel.style.fontSize                = 9;
+        _goldLabel.style.fontSize                = fontSize;
         _goldLabel.style.color                   = new StyleColor(GoldColour);
         _goldLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
         _goldLabel.style.marginTop               = 0;

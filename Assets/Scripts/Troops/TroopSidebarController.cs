@@ -20,6 +20,10 @@ public class TroopSidebarController : MonoBehaviour
     private Button        _toggleBtn;
     private bool          _isOpen;
 
+    // Stored so we can rebuild when unlock state changes
+    private VisualElement _troopList;
+    private VisualElement _powersList;
+
     // Kept so we can update affordability without rebuilding the whole card list
     private readonly List<(TroopData data, VisualElement card)> _cards = new();
 
@@ -46,20 +50,31 @@ public class TroopSidebarController : MonoBehaviour
         _toggleBtn = root.Q<Button>("toggle-btn");
         _toggleBtn.clicked += ToggleSidebar;
 
-        BuildTroopCards(root.Q("troop-list"));
-        BuildPowerCards(root.Q("powers-list"));
+        _troopList  = root.Q("troop-list");
+        _powersList = root.Q("powers-list");
+
+        BuildTroopCards(_troopList);
+        BuildPowerCards(_powersList);
         BuildDetailOverlay(root);
 
         GoldManager.OnGoldChanged += OnGoldChanged;
+        TroopUnlockManager.OnUnlocksChanged += RebuildCards;
     }
 
     void OnDisable()
     {
         if (_toggleBtn != null) _toggleBtn.clicked -= ToggleSidebar;
         GoldManager.OnGoldChanged -= OnGoldChanged;
+        TroopUnlockManager.OnUnlocksChanged -= RebuildCards;
     }
 
     void OnGoldChanged(int _) => RefreshAffordability();
+
+    void RebuildCards()
+    {
+        BuildTroopCards(_troopList);
+        BuildPowerCards(_powersList);
+    }
 
     // -------------------------------------------------------
     // Card building
@@ -93,6 +108,8 @@ public class TroopSidebarController : MonoBehaviour
         foreach (var data in troops)
         {
             if (data == null) continue;
+            // Only show troops that have been unlocked (or all troops if no unlock manager present)
+            if (TroopUnlockManager.Instance != null && !TroopUnlockManager.Instance.IsUnlocked(data)) continue;
 
             if (col % 2 == 0)
             {
@@ -155,6 +172,8 @@ public class TroopSidebarController : MonoBehaviour
         foreach (var data in powers)
         {
             if (data == null) continue;
+            // Only show powers that have been unlocked
+            if (TroopUnlockManager.Instance != null && !TroopUnlockManager.Instance.IsUnlocked(data)) continue;
             var card = MakePowerCard(data);
             list.Add(card);
             _cards.Add((data, card));

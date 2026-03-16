@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Milestone_Phase4
   m_EditorClassIdentifier: 
   phaseName: 'Phase 4: Aerial & Armored'
-  triggerAfterWave: 14
+  triggerAfterWave: 0
   isVictory: 0
   unlockedTroops:
   - {fileID: 11400000, guid: 2b6e1250545c54733bcd9f56c3f07cc9, type: 2}
