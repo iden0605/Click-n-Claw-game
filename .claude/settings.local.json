@@ -15,7 +15,9 @@
       "Bash(done)",
       "Bash(for f:*)",
       "Bash(do echo:*)",
-      "Read(//c/Users/Jorvan/Documents/Projects/Click-n-Claw-game/Assets/EnemyData/**)"
+      "Read(//c/Users/Jorvan/Documents/Projects/Click-n-Claw-game/Assets/EnemyData/**)",
+      "Bash(grep -E \"\\\\.asset$|Data\\\\.cs$\")",
+      "Bash(grep \"\\\\.cs$\")"
     ]
   }
 }

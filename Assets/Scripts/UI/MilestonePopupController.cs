@@ -244,10 +244,10 @@ public class MilestonePopupController : MonoBehaviour
         // Card slides in from right
         yield return AnimateSlide(card, 36f, 0f, 0f, 0f, 1f, CardSlide, EaseOutCubic);
 
-        var name    = card.Q("ms-card-name");
-        var badge   = card.Q("ms-attack-badge");
-        var stats   = card.Q("ms-stats-row");
-        var ability = card.Q("ms-card-ability");
+        var name    = card.Q(className: "ms-card-name");
+        var badge   = card.Q(className: "ms-attack-badge");
+        var stats   = card.Q(className: "ms-stats-row");
+        var ability = card.Q(className: "ms-card-ability");
 
         yield return new WaitForSecondsRealtime(0.06f);
         if (name != null)
