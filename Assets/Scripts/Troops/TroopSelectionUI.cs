@@ -69,9 +69,6 @@ public class TroopSelectionUI : MonoBehaviour
     // Cached so Hide() can reach it even after it's been unparented from the troop
     private RangeIndicator _activeIndicator;
 
-    // Coroutine that sets display:none after the slide-out transition finishes
-    private Coroutine _hideCoroutine;
-
     // Prevents LateUpdate from closing the panel on the same frame Show() was called
     private int _showFrame = -1;
 
@@ -116,9 +113,6 @@ public class TroopSelectionUI : MonoBehaviour
         _target    = troop;
         RefreshStatic();
         Refresh();
-        // Cancel any pending display:none so the panel is visible before animating in
-        if (_hideCoroutine != null) { StopCoroutine(_hideCoroutine); _hideCoroutine = null; }
-        _panel.style.display = DisplayStyle.Flex;
         _panel.AddToClassList("sel-open");
 
         var ind = _target.GetComponentInChildren<RangeIndicator>(true);
@@ -152,17 +146,6 @@ public class TroopSelectionUI : MonoBehaviour
         _target?.GetComponent<SpriteEffectsController>()?.HideOutline();
         _target = null;
         _panel?.RemoveFromClassList("sel-open");
-        if (_hideCoroutine != null) StopCoroutine(_hideCoroutine);
-        _hideCoroutine = StartCoroutine(HideAfterTransition());
-    }
-
-    System.Collections.IEnumerator HideAfterTransition()
-    {
-        // Wait slightly longer than the 0.30s CSS slide-out transition, then
-        // remove the panel from layout so UIInputBlocker can't pick it.
-        yield return new WaitForSecondsRealtime(0.35f);
-        if (_panel != null) _panel.style.display = DisplayStyle.None;
-        _hideCoroutine = null;
     }
 
     // -------------------------------------------------------

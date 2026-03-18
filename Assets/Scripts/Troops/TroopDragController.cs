@@ -210,8 +210,7 @@ public class TroopDragController : MonoBehaviour
         // MoveTroop: click to place (skip activation frame)
         else if (_mode == DragMode.MoveTroop
                  && Input.GetMouseButtonDown(0)
-                 && Time.frameCount > _activationFrame
-                 && !UIInputBlocker.IsPointerOverUI())
+                 && Time.frameCount > _activationFrame)
         {
             if (_overCancelBin)
             {
